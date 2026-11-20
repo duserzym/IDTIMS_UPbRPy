@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate/install the six labelled Pb measurement bars, entirely offline.
+"""Generate/install five Pb bars of a nominal zircon on ET535, entirely offline.
 
-Adapted b_peaks() from Yiming's 2026-11-19 make_candidates.py
-(2-mass-peaks.svg), adding 202/205 tracer bars and coloured mass labels.
+Matches the approved 2026-11-20 make_zircon_icon.py draft: five labelled
+bars (204, 205, 206, 207, 208), with no 202 bar.
 The original four-peak master is preserved as icon_four_peaks.svg.
 The flat-topped peak(), suite tile, card, grid, axes and shadow are unchanged.
 Shared suite template credit (as tools/make_app_icon.py): HEAD/PANEL from
@@ -11,7 +11,7 @@ UPbRPy/GUI/assets/icons/make_icon.py; bracketeer/src-tauri/icon/make_icon.py
 cites the same template. Tile 36/36/440/440/r88; paper 96/96/320/320/r22;
 shadow dy9/sigma10/#0f1b2d/25%. No sibling imports or writes.
 The historical v2c generator is retained unchanged in make_app_icon.py.
-Run: QT_QPA_PLATFORM=offscreen .venv/bin/python tools/make_pb_peaks_icon.py
+Run: QT_QPA_PLATFORM=offscreen env -u PYTHONPATH .venv/bin/python tools/make_pb_peaks_icon.py
 """
 
 from __future__ import annotations
@@ -70,17 +70,16 @@ def peak(x0, w, h, base=384):
 
 
 def b_peaks(*, small=False, tiny=False):
-    """Natural Pb (204/206/207/208) and ET2535 tracers (202/205), in mass order."""
+    """Five Pb bars of a nominal zircon on ET535, in mass order."""
     parts = [CARD, "" if tiny else GRID, AXES]
     spec = [
-        (202, 158, 166, "amber", "#805a10"),
-        (204, 198, 34, "purple", "#5e3378"),
-        (205, 238, 184, "teal", "#12645f"),
-        (206, 278, 224, "blue", "#24408f"),
-        (207, 318, 120, "red", "#8f2a24"),
-        (208, 358, 176, "green", "#1f5f16"),
+        (204, 172, 12, "purple", "#5e3378"),
+        (205, 220, 206, "teal", "#12645f"),
+        (206, 268, 222, "blue", "#24408f"),
+        (207, 316, 104, "red", "#8f2a24"),
+        (208, 364, 62, "green", "#1f5f16"),
     ]
-    width, stroke = (24, 2) if tiny else (22, 4)
+    width, stroke = (30, 2) if tiny else (28, 4)
     for mass, x, h, fill, edge in spec:
         parts.append(
             f'<path d="{peak(x, width, h)}" fill="url(#{fill})" fill-opacity="0.85" stroke="{edge}" stroke-width="{stroke}" stroke-linejoin="round"/>'
@@ -92,7 +91,7 @@ def b_peaks(*, small=False, tiny=False):
                 f'font-size="28" font-weight="bold" text-anchor="middle">{mass}</text>'
             )
     parts.append(AXES)
-    return svg("Pb measurement bars: 202, 204, 205, 206, 207, 208", "".join(parts))
+    return svg("Five Pb bars of a nominal zircon on ET535: 204, 205, 206, 207, 208", "".join(parts))
 
 
 def render(converter: str, source: Path, size: int, target: Path) -> QImage:
@@ -107,7 +106,7 @@ def render(converter: str, source: Path, size: int, target: Path) -> QImage:
 def small_sizes_sheet(
     previous: dict[int, QImage], installed: dict[int, QImage]
 ) -> QImage:
-    """Four vs six bars at 16/32/64/128 px, true size and 8×, light/dark."""
+    """Four peaks vs five zircon bars at 16/32/64/128 px, 1× and 8×, light/dark."""
     panel_w, margin, gap = 2240, 24, 24
     height = 160 + sum(size * 9 + 120 for size in REVIEW_SIZES)
     sheet = QImage(
@@ -132,7 +131,7 @@ def small_sizes_sheet(
             x, 30, panel_w, "Pb measurement bars · " + ("dark" if dark else "light"), 24
         )
         for column, (name, images) in enumerate(
-            (("Previous · four peaks", previous), ("Installed · six bars", installed))
+            (("Previous · four peaks", previous), ("Installed · five zircon bars", installed))
         ):
             center = x + 560 + column * 1120
             label(center - 540, 78, 1080, name, 20)
@@ -194,7 +193,7 @@ def main() -> None:
         }
     save(small_sizes_sheet(previous, installed), OUT / "final_small_sizes.png")
     print(
-        "Installed six-bar SVG, unlabelled 16/32/64 px, seven PNGs and ICNS; wrote",
+        "Installed five-bar zircon SVG, unlabelled 16/32/64 px, seven PNGs and ICNS; wrote",
         OUT / "final_small_sizes.png",
     )
     del app

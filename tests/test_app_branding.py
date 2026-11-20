@@ -21,15 +21,15 @@ LARGE_HASHES = {
     512: "d9b65c66287bdf40be1701196f758a95a3057055830849dba639c21211219312",
     1024: "776a1ac29eb133d89aec1d4bdd6c155237ff79e070d41139ad527fc09cede543",
 }
-# Six-bar rsvg-convert exports: tiny at 16, small at 32/64, labelled at 128+.
+# Five-bar zircon exports: tiny at 16, small at 32/64, labelled at 128+.
 PEAK_HASHES = {
-    16: "0f130cb7e74d45360752b0741d63ed80ce7cf84126611be63eed6d797324118f",
-    32: "87fc8087cf384787b46a6f07757eee426b94d5ec9c651901ecaa88dddc00bdc8",
-    64: "1f7a89fe824c36f410b11acff73d2cb23663c745a8ec22b6962ac63c76fec9c1",
-    128: "4e4704a8a0a2cdfc878e41a74ad1a942941e3c68f0e2234e01d289ead3cd63ed",
-    256: "7f6273b001b7f8dd044b62d9930477bd63f73e0efb697872983df9ffd7d911a8",
-    512: "3548943e11f217a5b9bfa6672c177c35170dbc79b00ed61119cbb96121cb60c7",
-    1024: "a86d0e5b69a2ad1aafd2bbb1d19fdcc4530174f2fed369b393faaec98575e50d",
+    16: "439c3e76ee89f4d5b25849fb89ab7828e6f524d0d99265a7ad60568fa6e6f968",
+    32: "ea37876aa92a13282eb0895d66cfdcec4a73bdb95c914fe67b190b49176c3581",
+    64: "16abb96cdc6bba7eb2c43e18f450d4b9d82c88f1c4ade595c3f75fe6dac33ce2",
+    128: "6936dad1bb38e844760ea8b6419aae0ac95dbf3c44eec779c7f8e33054ed6e01",
+    256: "d410b300f2837f55c378d3106f156d3b6bc23dd84a5ee2cbdaf99db0a5f7eef6",
+    512: "da268de39256aef1f818db92e8f46978660b7c8f23d416115ab82e98922fe0e0",
+    1024: "d4ae26eb19a15a07011e545e18eed453eb0658ab475f583bc46725a5097d34e3",
 }
 ENTRIES = {
     b"icp4": (16, "icon_16x16.png"),   # PNG fallback; iconutil uses ic04/ARGB
@@ -71,7 +71,7 @@ def test_large_artwork_is_byte_identical_to_original_v2c():
         assert hashlib.sha256((HISTORICAL / f"icon_{size}.png").read_bytes()).hexdigest() == expected
 
 
-def test_installed_pngs_match_approved_six_bar_renders():
+def test_installed_pngs_match_approved_five_bar_renders():
     for size, expected in PEAK_HASHES.items():
         assert hashlib.sha256(branding.ICON_PNGS[size].read_bytes()).hexdigest() == expected
 

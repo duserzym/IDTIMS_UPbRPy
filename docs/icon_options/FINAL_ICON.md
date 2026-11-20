@@ -1,4 +1,91 @@
-# Installed icon: six labelled Pb measurement bars (2026-11-19)
+# Installed icon: five Pb bars of a nominal zircon on ET535 (2026-11-20)
+
+Yiming approved the five-bar zircon draft ("Yes, use it"). The source is
+`make_zircon_icon.py` from the read-only 2026-11-20 draft. This is nominal,
+illustrative artwork, with no measured sample data. There is no 202 bar.
+
+| Mass | Centre x | Height above base 384 | Gradient, light → dark | Stroke and label |
+| --- | --- | --- | --- | --- |
+| 204 | 172 | 12 | `#d3b4e3` → `#9558b2` | `#5e3378` |
+| 205 | 220 | 206 | `#9cded8` → `#209b92` | `#12645f` |
+| 206 | 268 | 222 | `#a8b8f2` → `#4063d8` | `#24408f` |
+| 207 | 316 | 104 | `#efa39d` → `#cb3c33` | `#8f2a24` |
+| 208 | 364 | 62 | `#a9dd9c` → `#389826` | `#1f5f16` |
+
+The master and small rendition use width 28 and stroke 4. The tiny rendition
+uses width 30 and stroke 2. The suite tile, card, grid, axes, shadow, 0.85
+fill opacity, flat-topped paths and centred 28-unit mass labels match the
+approved draft. The unused amber gradient remains in its definitions, as in
+the draft; it draws no bar.
+
+## Draft comparison and small sizes
+
+All three generated SVG files are byte-identical to their draft counterparts
+except for the `<title>`, now "Five Pb bars of a nominal zircon on ET535:
+204, 205, 206, 207, 208". Geometry, colours, labels and other attributes
+have no differences. The approved draft master SHA-256 is
+`6d5b8c25fb639e2e7aeb85cbba0fe3d71767b5732b6ce405a63f8af5dad6593d`.
+All seven installed PNGs are byte-identical to direct renders of the
+corresponding approved draft SVGs using the production size selection:
+
+- **128/256/512/1024 px:** labelled `pb_peaks/icon.svg` master.
+- **32/64 px:** unlabelled `pb_peaks/icon_small.svg`, with grid.
+- **16 px:** unlabelled, grid-less `pb_peaks/icon_tiny.svg`.
+
+The draft preview script instead renders the tiny rendition at 32 px as
+well as 16 px. Production retains the requested 32/64 px small rendition.
+At 32 px the 12-unit 204 bar is only 0.75 px tall before its outline and
+rasterisation: it remains a faint purple mark immediately above the baseline,
+not a separately legible column. At 64 px the short purple mark is clearer;
+at 128 px all five labels read. At 16 px the graph remains recognisable,
+but 204 blends into the baseline and individual masses cannot be identified.
+The installed renders were inspected at native size and with nearest-neighbour
+magnification on both light and dark backgrounds. No height was exaggerated.
+
+`pb_peaks/final_small_sizes.png` retains the previous review-sheet workflow:
+preserved four-peak artwork versus installed five zircon bars, at 16/32/64/128 px,
+true size and 8× nearest-neighbour, on light/dark backgrounds (4552 × 2800 px).
+
+## Regeneration and packaging
+
+```sh
+QT_QPA_PLATFORM=offscreen env -u PYTHONPATH .venv/bin/python tools/make_pb_peaks_icon.py
+```
+
+As in the previous installation, the tool writes three SVGs, seven directly
+rendered PNGs, ten Apple iconset entries, ICNS and the review sheet in
+`pb_peaks/`; it copies the master, seven PNGs and ICNS into the app assets.
+It uses the existing `rsvg-convert` renderer and `make_app_icon.package_icns`
+packaging path. On this run `iconutil -c icns` again reported `Invalid Iconset`;
+the unchanged Python PNG-chunk fallback generated the ICNS and independently
+decoded all ten entries through Qt. The existing package-data and PyInstaller
+icon wiring are checked by the branding tests. No application bundle was built.
+`branding.py` describes the five-bar icon; `tests/test_app_branding.py` pins
+all seven new PNG hashes. Historical artwork and hash checks remain intact.
+
+Validation:
+
+- Focused branding and packaging import tests: **115 passed** (1.83 s).
+- `env -u PYTHONPATH .venv/bin/python scripts/run_tests.py quick`:
+  **553 passed, 33 warnings, 9495 subtests passed** (274.88 s).
+- A second generator run reproduced every output byte-for-byte, including
+  the ICNS and review sheet.
+- `sips` recognises the ICNS as 1024 × 1024; Apple's `iconutil -c iconset`
+  successfully exported all ten representations independently.
+- `git diff --check` passed. Changed files were scanned for private absolute
+  paths and protected input names; none remain. No real data was added.
+- The requested 16/32/64/128/512 px PNGs and review sheet were copied to the
+  supervisor's external scratch directory and verified byte-for-byte.
+
+The protected spreadsheet and notebook were not opened or modified. No git
+command that changes the repository, index or working tree was used.
+
+---
+
+# Historical icon: six labelled Pb measurement bars (2026-11-19)
+
+The following records describe the superseded six-bar delivery and its
+validation at the time.
 
 Yiming requested six measurement bars in mass order **202, 204, 205, 206,
 207, 208**, with coloured mass numbers above them. The natural Pb isotopes
@@ -206,7 +293,7 @@ The reverse conversion succeeds:
 
 ```sh
 iconutil -c iconset src/idtims_app/assets/app_icon.icns \
-  -o /private/tmp/idtims-roundtrip.iconset
+  -o "${TMPDIR:-/tmp}/idtims-roundtrip.iconset"
 ```
 
 `sips` also fails when encoding a standalone PNG as ICNS (exit 13), while PNG

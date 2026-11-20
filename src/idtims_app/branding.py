@@ -1,7 +1,7 @@
 """The app's name and chosen icon, in one place.
 
-The name is still a working name; the icon is six coloured Pb measurement
-bars (202, 204, 205, 206, 207, 208), labelled at 128 px and above.
+The name is still a working name; the icon is five coloured Pb bars of a
+nominal zircon on ET535 (204, 205, 206, 207, 208), labelled at 128 px and above.
 Every other module, the PyInstaller spec and the build script read these
 values from here; renaming the app means editing this file only (plus the
 entry-point name in pyproject.toml).
@@ -35,7 +35,7 @@ PROJECT_EXTENSION = ".idtr"
 """Project file extension."""
 
 ICON_PATH = Path(__file__).resolve().parent / "assets" / "app_icon.svg"
-"""Six labelled Pb bars; regenerate with tools/make_pb_peaks_icon.py."""
+"""Five labelled zircon Pb bars; regenerate with tools/make_pb_peaks_icon.py."""
 
 ICON_PNGS = {size: ICON_PATH.with_name(f"app_icon_{size}.png")
              for size in (16, 32, 64, 128, 256, 512, 1024)}
