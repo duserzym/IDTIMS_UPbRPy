@@ -1,7 +1,7 @@
 # Release and update builds
 
 The updater is a verbatim copy of `duserzym/UPbRPy`'s `GUI/labupdate` at
-`e3970b6`. Its source rules, API and per-file SHA256 hashes are in
+`13b1ff2`. Its source rules, API and per-file SHA256 hashes are in
 `src/idtims_app/labupdate/{SOURCE.md,API.md,VENDORED}`. Change the canonical
 package and recopy it when fixing shared behavior; keep app-specific changes
 in `update_config.py` or `update_widgets.py`.

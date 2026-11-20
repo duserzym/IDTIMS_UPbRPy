@@ -45,7 +45,7 @@ def test_config_and_notes():
 def test_vendor_ast_and_byte_manifest():
     folder = ROOT / "src/idtims_app/labupdate"
     lines = (folder / "VENDORED").read_text().splitlines()
-    assert lines[0] == ("Vendored from duserzym/UPbRPy GUI/labupdate at e3970b6 on 2026-11-20. "
+    assert lines[0] == ("Vendored from duserzym/UPbRPy GUI/labupdate at 13b1ff2 on 2026-11-20. "
                         "Do not edit; change the canonical copy and recopy.")
     hashes = dict(line.split("  ", 1)[::-1] for line in lines[3:])
     assert set(hashes) == {p.name for p in folder.iterdir() if p.suffix in {".py", ".md"}}
