@@ -7,7 +7,7 @@ from . import constants
 from . import UPbR
 from . import utils
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 from .UPbR import load_grains, load_spike_data
 from .quality import check_measurement_quality, check_ratio_errors, DataQualityError
 
