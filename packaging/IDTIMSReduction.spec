@@ -14,6 +14,8 @@ import runpy
 import sys
 import tomllib
 
+import certifi
+
 from PyInstaller.utils.hooks import collect_submodules
 
 PACKAGING_DIRECTORY = Path(SPECPATH).resolve()
@@ -29,6 +31,8 @@ if FINGERPRINT_FILE.name != "engine_source_fingerprint.txt" or not FINGERPRINT_F
     raise ValueError("Build requires the generated engine_source_fingerprint.txt from build_desktop.py")
 
 data_files = [
+    (certifi.where(), "certifi"),
+    (str(PROJECT_ROOT / "release-notes" / "*.md"), "idtims_app/release-notes"),
     (str(FINGERPRINT_FILE), "idtims_app"),
     (str(SOURCE / "IDTIMS_UPbRPy" / "spike_compositions" / "*.csv"),
      "IDTIMS_UPbRPy/spike_compositions"),
@@ -39,6 +43,8 @@ data_files = [
 ]
 
 hidden_imports = [
+    "truststore",
+    "certifi",
     "PySide6.QtSvg",
     "PySide6.QtNetwork",
     # As Studio's spec: pyqtgraph loads its exporters lazily (plot context menu).

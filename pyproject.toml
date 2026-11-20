@@ -12,7 +12,7 @@ dependencies = ["numpy>=1.23", "pandas>=1.5", "scipy>=1.9", "tomli>=2; python_ve
 
 [project.optional-dependencies]
 test = ["pytest>=7", "build>=1", "xlrd>=2"]
-gui = ["PySide6>=6.11.1", "pyqtgraph>=0.14.0", "openpyxl>=3.1"]
+gui = ["PySide6>=6.11.1", "pyqtgraph>=0.14.0", "openpyxl>=3.1", "truststore", "certifi"]
 build = ["PyInstaller>=6.17,<7"]
 
 [project.scripts]
@@ -26,7 +26,8 @@ exclude = ["IDTIMS_UPbRPy.spike_registry"]
 [tool.setuptools.package-data]
 "IDTIMS_UPbRPy.spike_compositions" = ["*.csv"]
 "IDTIMS_UPbRPy" = ["spike_registry/*.toml", "spike_registry/*.json"]
-"idtims_app" = ["assets/*.svg", "assets/*.png", "assets/*.icns"]
+"idtims_app" = ["assets/*.svg", "assets/*.png", "assets/*.icns", "release-notes/*.md"]
+"idtims_app.labupdate" = ["SOURCE.md", "API.md", "VENDORED"]
 "idtims_app.ui" = ["assets/icons/*.svg"]
 
 [tool.pytest.ini_options]

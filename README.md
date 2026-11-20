@@ -26,6 +26,10 @@ identity. With `APPLE_SIGNING_IDENTITY` unset or set to `-`, PyInstaller's exist
 ad hoc signing is retained. `--no-build` tests the existing bundle without signing
 it again. Build outputs go to the platform cache directory outside this checkout.
 
+The header’s circular-arrows button checks for updates; the version chip opens
+update details. See [release and update builds](docs/releases.md) for signed
+archives, release notes and publishing steps.
+
 ## Derivation website
 
 Open [docs/index.html](docs/index.html) in a browser, or serve it locally:

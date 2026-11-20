@@ -83,6 +83,8 @@ def build_parser():
     parser.add_argument("--print-engine-fingerprint", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--print-project-status", metavar="PROJECT",
                         help="Open a project without a window and print its recomputed status")
+    from idtims_app.labupdate.selftest import add_self_test_argument
+    add_self_test_argument(parser)
     return parser
 
 
@@ -176,6 +178,10 @@ def run_verification(snapshot):
 def main(argv=None):
     multiprocessing.freeze_support()
     args = build_parser().parse_args(argv)
+    if args.update_self_test is not None:
+        from idtims_app.labupdate.selftest import handle_self_test
+        from idtims_app.update_config import update_config
+        return handle_self_test(args, update_config())
     if args.print_engine_fingerprint:
         from idtims_app.project import engine_fingerprint, frozen_code_fingerprint
         engine = engine_fingerprint()

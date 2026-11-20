@@ -18,10 +18,13 @@ import hashlib
 import importlib.util
 import json
 import os
+import platform
 import runpy
 import shutil
 import subprocess
 import sys
+import tarfile
+import zipfile
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -78,7 +81,7 @@ def sign_application(application):
 
 
 def require_build_dependencies():
-    missing = [n for n in ("PyInstaller", "PySide6", "pyqtgraph")
+    missing = [n for n in ("PyInstaller", "PySide6", "pyqtgraph", "truststore", "certifi")
                if importlib.util.find_spec(n) is None]
     if missing:
         raise RuntimeError(f"Missing build dependencies: {', '.join(missing)}. Install them with "
@@ -109,7 +112,7 @@ def run_pyinstaller(dist, work, *, clean):
     return application
 
 
-def _run_frozen(application, arguments, work):
+def _run_frozen(application, arguments, work, *, environment_overrides=None, check=True):
     """Run the frozen app offscreen with isolated settings; fail on error or traceback."""
     environment = os.environ.copy()
     for name in ("PYTHONPATH", "PYTHONHOME"):
@@ -117,9 +120,19 @@ def _run_frozen(application, arguments, work):
     environment["QT_QPA_PLATFORM"] = "offscreen"
     environment["IDTIMS_AUTOSAVE_DIR"] = str(work / "autosave")
     environment["IDTIMS_APP_SETTINGS"] = str(work / "smoke-settings.ini")
-    result = subprocess.run([str(application_executable(application)), *arguments], cwd=work,
+    environment.update(environment_overrides or {})
+    command = [str(application_executable(application)), *arguments]
+    sandbox = shutil.which("sandbox-exec") if sys.platform == "darwin" and "--update-self-test" in arguments else None
+    if sandbox:
+        profile = work / "no-homebrew-ca.sb"
+        profile.write_text(
+            '(version 1)\n(allow default)\n'
+            '(deny file-read* (subpath "/opt/homebrew/etc/openssl@3") '
+            '(subpath "/usr/local/etc/openssl@3"))\n', encoding="utf-8")
+        command = [sandbox, "-f", str(profile), *command]
+    result = subprocess.run(command, cwd=work,
                             env=environment, capture_output=True, text=True, timeout=300)
-    if result.returncode != 0 or "Traceback" in result.stderr:
+    if check and (result.returncode != 0 or "Traceback" in result.stderr):
         raise RuntimeError(f"The frozen app failed on {' '.join(arguments)} "
                            f"(exit {result.returncode}):\n{result.stderr[-4000:]}")
     return result
@@ -184,7 +197,150 @@ def smoke_test_application(application, work):
         raise RuntimeError(f"The frozen reduction check failed: {report}")
     print(f"Frozen reduction check: {report['numbers_compared']} numbers match "
           f"{SNAPSHOT.name} (rel 1e-12)")
+    verify_update_self_test(application, work)
     return shots
+
+
+def project_version():
+    try:
+        import tomllib
+    except ImportError:
+        import tomli as tomllib
+    return tomllib.loads((PROJECT_ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+
+
+def platform_label():
+    system = {"darwin": "macOS", "win32": "Windows"}.get(sys.platform, "Linux")
+    machine = platform.machine().lower()
+    arch = {"aarch64": "arm64", "amd64": "x86_64"}.get(machine, machine)
+    return f"{system}-{arch}"
+
+
+def verify_update_self_test(application: Path, work_directory: Path) -> None:
+    """Verify a local signed feed and mandatory tamper rejection in the frozen app."""
+    sys.path.insert(0, str(PROJECT_ROOT / "src"))
+    from idtims_app.labupdate.config import platform_key
+    from idtims_app.labupdate.selftest import SELF_TEST_DATA
+
+    # The disposable private test key stays in the source-side test helper.
+    # It is never bundled or used by the production updater.
+    helper = importlib.util.spec_from_file_location("labupdate_smoke_signing", PROJECT_ROOT / "tests/labupdate_signing.py")
+    signing = importlib.util.module_from_spec(helper)
+    helper.loader.exec_module(signing)
+    archive = work_directory / "update-self-test.zip"
+    with zipfile.ZipFile(archive, "w") as bundle:
+        bundle.writestr("Self Test.app/Contents/MacOS/Self Test", SELF_TEST_DATA)
+    signature = signing.sign(archive.read_bytes())
+    manifest = work_directory / "update-self-test.json"
+    manifest.write_text(json.dumps({"version": project_version(), "notes": "Frozen update check",
+        "platforms": {platform_key(): {"url": archive.as_uri(), "signature": signature}}}), encoding="utf-8")
+    output = work_directory / "update-self-test-result.json"
+    output.unlink(missing_ok=True)
+    result = _run_frozen(application,
+        ["--update-self-test", manifest.as_uri(), "--update-self-test-output", str(output)],
+        work_directory, environment_overrides={
+            "SSL_CERT_FILE": str(work_directory / "nonexistent-cert.pem"),
+            "SSL_CERT_DIR": str(work_directory / "nonexistent-certs"),
+        }, check=False)
+    try:
+        report = json.loads(output.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise RuntimeError(f"Frozen update self-test did not return JSON: {result.stderr[-4000:]}") from exc
+    required = (report.get("ok") is True, report.get("verification_ran") is True,
+                report.get("signature", {}).get("tampered_rejected") is True,
+                report.get("signature", {}).get("status") == "ok",
+                report.get("public_key", {}).get("status") == "ok",
+                report.get("manifest", {}).get("status") == "ok",
+                report.get("manifest", {}).get("archive_verified") is True,
+                report.get("https", {}).get("status") in {"ok", "network"},
+                bool(report.get("tls", {}).get("source")),
+                report.get("tls", {}).get("status") != "error")
+    if result.returncode != 0 or "Traceback" in result.stderr or not all(required):
+        raise RuntimeError(f"Frozen update self-test failed: {report}")
+    if report["https"]["status"] == "network":
+        print(f"Warning: frozen update HTTPS check unavailable: {report['https'].get('message', '')}")
+
+
+def archive_application(
+    application: Path,
+    dist_directory: Path,
+    *, sign_with: Path | None = None,
+) -> Path:
+    """Create a ZIP plus an update tarball, verified feed and checksums."""
+    archive_stem = (
+        f"{APPLICATION_NAME}-{project_version()}-{platform_label()}"
+    )
+    archive = dist_directory / f"{archive_stem}.zip"
+    if archive.exists():
+        archive.unlink()
+    Path(str(archive) + ".sig").unlink(missing_ok=True)
+    if sys.platform == "darwin":
+        subprocess.run(
+            [
+                "ditto",
+                "-c",
+                "-k",
+                "--sequesterRsrc",
+                "--keepParent",
+                str(application),
+                str(archive),
+            ],
+            check=True,
+        )
+    else:
+        bundle_directory = (
+            application.parent
+            if application.is_file()
+            else application
+        )
+        generated = shutil.make_archive(
+            str(archive.with_suffix("")),
+            "zip",
+            root_dir=bundle_directory.parent,
+            base_dir=bundle_directory.name,
+        )
+        archive = Path(generated)
+    assets = [archive]
+    signed_archive = archive
+    target = "windows-x86_64" if sys.platform == "win32" else None
+    if sys.platform == "darwin":
+        tarball = dist_directory / f"{archive_stem}.app.tar.gz"
+        # Regenerating an archive invalidates any signature from an earlier build.
+        Path(str(tarball) + ".sig").unlink(missing_ok=True)
+        with tarfile.open(tarball, "w:gz", dereference=False) as bundle:
+            bundle.add(application, arcname=application.name)
+        assets.append(tarball)
+        signed_archive = tarball
+        target = "darwin-aarch64" if platform_label() == "macOS-arm64" else None
+    key = sign_with or os.environ.get("IDTIMS_UPDATER_KEY")
+    if key:
+        if target is None:
+            raise ValueError("Signed ID-TIMS feeds support macOS arm64 and Windows x86_64")
+        sys.path.insert(0, str(PROJECT_ROOT / "src"))
+        from idtims_app.labupdate.release import build_feed
+        from idtims_app.update_config import PUBLIC_KEY
+        public_key = dist_directory / "updater.pub"
+        public_key.write_text(PUBLIC_KEY, encoding="utf-8")
+        try:
+            feed = dist_directory / "latest.json"
+            build_feed(repo="duserzym/IDTIMS_UPbRPy", version=project_version(),
+                notes_file=PROJECT_ROOT / "release-notes" / f"{project_version()}.md",
+                archives={target: signed_archive}, pubkey_file=public_key,
+                out=feed, sign_with=Path(key).expanduser())
+        finally:
+            public_key.unlink(missing_ok=True)
+        assets.extend([Path(str(signed_archive) + ".sig"), feed])
+    checksums = dist_directory / "SHA256SUMS.txt"
+    lines = []
+    for asset in assets:
+        with asset.open("rb") as stream:
+            hasher = hashlib.sha256()
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                hasher.update(chunk)
+            digest = hasher.hexdigest()
+        lines.append(f"{digest}  {asset.name}\n")
+    checksums.write_text("".join(lines), encoding="utf-8")
+    return archive
 
 
 def directory_size(path):
@@ -213,6 +369,10 @@ def parse_arguments(argv=None):
                         help="Clear PyInstaller's caches before analysis")
     parser.add_argument("--clean", action="store_true",
                         help=f"Remove the build directory ({BUILD_ROOT}) and exit")
+    parser.add_argument("--archive", action="store_true",
+                        help="Create platform ZIP, update tarball and checksums")
+    parser.add_argument("--sign-with", type=Path,
+                        help="Updater private key (or IDTIMS_UPDATER_KEY)")
     return parser.parse_args(argv)
 
 
@@ -238,6 +398,9 @@ def main(argv=None):
     if arguments.smoke_test:
         smoke_test_application(application, work / "smoke")
         print("Smoke test passed.")
+    if arguments.archive:
+        archive = archive_application(application, dist, sign_with=arguments.sign_with)
+        print(f"Archive: {archive}")
     return 0
 
 

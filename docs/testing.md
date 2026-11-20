@@ -137,6 +137,21 @@ one process; smoke requires non-empty, equal fingerprints and `frozen: true`.
 The source and frozen fingerprints may differ (source bytes versus PYZ bytes);
 opening such a project displays an inline recomputation note.
 
+The frozen smoke test also runs `--update-self-test` against a local `file://`
+manifest and ZIP signed with a disposable test key. It requires a parsed
+production public key, positive signature verification, rejection of tampered
+bytes, and verification of the manifest archive. It sets `SSL_CERT_FILE` and
+`SSL_CERT_DIR` to nonexistent paths and, when `sandbox-exec` is available,
+hides both Homebrew OpenSSL certificate directories. A github.com network
+failure prints a warning; certificate failures or failed verification fail the
+build. The disposable signing helper stays under `tests/` and is not bundled.
+
+`test_updates.py`, `test_gui_updates.py` and `test_build_desktop.py` cover the
+app config, headless offline CLI, pinned vendor hashes and Python AST parsing,
+1280×800 light/dark controls, upgrade notes and stable-channel migration,
+signed archives with preserved symlinks, feed validation and frozen smoke gates.
+No localhost server is required. See [release builds](releases.md).
+
 ## Project and autosave contract
 
 `idtims_app.project` owns the Qt-free v1 format; the engine stays unchanged.

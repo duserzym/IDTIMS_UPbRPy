@@ -15,7 +15,10 @@ from concurrent.futures import ThreadPoolExecutor
 
 from PySide6 import QtCore, QtGui, QtWidgets
 
-from idtims_app import branding, project, autosave
+from idtims_app import branding, project, autosave, __version__
+from idtims_app.labupdate.qt import Updater, CheckUpdatesButton, VersionChip
+from idtims_app.update_config import update_config
+from idtims_app.update_widgets import UpdatesDialog
 from idtims_app.services import Session
 from idtims_app.steps import STEPS
 from idtims_app.ui.busy_indicator import BusyIndicator
@@ -101,6 +104,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self._rail_compact = None
         # v1 could reflect the old forced-compact laptop layout, not a choice.
         settings = app_settings()
+        self.updater = Updater(update_config(), __version__, self, settings=settings)
+        self._updates_dialog = None
         saved_rail = settings.value(RAIL_MODE_KEY)
         self._user_rail_compact = (str(saved_rail).lower() in {"true", "1"}
                                    if saved_rail is not None else None)
@@ -268,6 +273,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.issue_notes.setObjectName("SecondaryText")
         self.issue_notes.hide()
         header.addWidget(self.issue_notes)
+        self.check_updates_button = CheckUpdatesButton(self.updater, self.open_update_settings)
+        self.check_updates_button.setFixedSize(30, 30)
+        self.check_updates_button.setStyleSheet("""
+            QToolButton { background: palette(button); color: palette(button-text);
+                border: 1px solid palette(mid); border-radius: 12px; padding: 0; }
+            QToolButton:hover { background: palette(midlight); }
+        """)
+        self.version_chip = VersionChip(self.updater)
+        header.addWidget(self.check_updates_button, 0, QtCore.Qt.AlignmentFlag.AlignVCenter)
+        header.addWidget(self.version_chip, 0, QtCore.Qt.AlignmentFlag.AlignVCenter)
         layout.addLayout(header)
         self.window_banner = MessageBanner()
         layout.addWidget(self.window_banner)
@@ -358,6 +373,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.next_action = workflow_menu.addAction("Next Step")
         self.next_action.setShortcuts([QtGui.QKeySequence("Ctrl+]"), QtGui.QKeySequence("Ctrl+Right")])
         self.next_action.triggered.connect(lambda: self.go_to_step(1))
+
+    def open_update_settings(self):
+        if self._updates_dialog is None:
+            self._updates_dialog = UpdatesDialog(self.updater, self)
+        self.check_updates_button.popover.hide()
+        self._updates_dialog.show()
+        self._updates_dialog.raise_()
+        self._updates_dialog.activateWindow()
+        return self._updates_dialog
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        # The controls and their anchored What's new card exist before startup.
+        QtCore.QTimer.singleShot(0, self.updater.start_scheduler)
 
     # -- documents -------------------------------------------------------------
     def choose_open(self):
@@ -956,4 +985,5 @@ class MainWindow(QtWidgets.QMainWindow):
             area.save_layout()
         self._autosave_timer.stop()
         self._autosave_executor.shutdown(wait=False)
+        self.updater.shutdown()
         super().closeEvent(event)
