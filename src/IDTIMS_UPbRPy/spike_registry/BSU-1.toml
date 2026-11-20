@@ -1,0 +1,40 @@
+format_version = 1
+
+[spike]
+id = "BSU-1"
+name = "BSU-1"
+aliases = ["BSU1B"]
+spike_type = "535"
+isotopes = ["205Pb", "233U", "235U"]
+description = "BSU-1 isotope-dilution tracer solution."
+visibility = "private"
+
+[[spike.subfractions]]
+id = "B"
+name = "Sub-fraction B"
+notes = "Legacy BSU1B identifies sub-fraction B."
+
+[[spike.versions]]
+subfraction = "B"
+version = "v1"
+status = "current"
+source = "legacy_csv"
+locator = "spike_compositions/BSU1B_v1.csv, value and uncertainty rows"
+notes = "Verbatim CSV numeric tokens. Unreported concentration uncertainties remain unknown. Composition is not the printed Condon et al. (2015) Table 3 calibration; preserve privately."
+legacy = [{ name = "BSU1B", version = "v1" }]
+
+[spike.versions.concentrations]
+"205Pb" = { value = 9.85261412393512E-12, unit = "mol/g" }
+"235U" = { value = 7.67812303644948E-10, unit = "mol/g" }
+
+[spike.versions.ratios]
+"206Pb/205Pb" = { value = 0.00428015784118219, uncertainty = 0.02326, uncertainty_type = "1sd_rel_pct" }
+"207Pb/205Pb" = { value = 0.00380231212821346, uncertainty = 0.032175, uncertainty_type = "1sd_rel_pct" }
+"204Pb/205Pb" = { value = 0.00028644243756331, uncertainty = 0.09756, uncertainty_type = "1sd_rel_pct" }
+"208Pb/205Pb" = { value = 0.0090588, uncertainty = 0.02455, uncertainty_type = "1sd_rel_pct" }
+"207Pb/206Pb" = { value = 0.888357922604848, uncertainty = 0.02455, uncertainty_type = "1sd_rel_pct" }
+"204Pb/206Pb" = { value = 0.0669233351179857, uncertainty = 0.0591, uncertainty_type = "1sd_rel_pct" }
+"238U/235U" = { value = 0.00258437386930599, uncertainty = 0.07, uncertainty_type = "1sd_rel_pct" }
+"233U/235U" = { value = 1.00706589408472, uncertainty = 0.01, uncertainty_type = "1sd_rel_pct" }
+"238U/233U" = { value = 0.00256624108162736, uncertainty = 0.07, uncertainty_type = "1sd_rel_pct" }
+"235U/205Pb" = { value = 77.929805631958, uncertainty = 0.024, uncertainty_type = "1sd_rel_pct" }

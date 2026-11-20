@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "IDTIMS-UPbRPy"
+version = "0.2.2"
+description = "ID-TIMS U-Pb isotope dilution reduction and age calculations"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.23", "pandas>=1.5", "scipy>=1.9", "tomli>=2; python_version < '3.11'"]
+
+[project.optional-dependencies]
+test = ["pytest>=7", "build>=1", "xlrd>=2"]
+gui = ["PySide6>=6.11.1", "pyqtgraph>=0.14.0", "openpyxl>=3.1"]
+build = ["PyInstaller>=6.17,<7"]
+
+[project.scripts]
+idtims-app = "idtims_app.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
+exclude = ["IDTIMS_UPbRPy.spike_registry"]
+
+[tool.setuptools.package-data]
+"IDTIMS_UPbRPy.spike_compositions" = ["*.csv"]
+"IDTIMS_UPbRPy" = ["spike_registry/*.toml", "spike_registry/*.json"]
+"idtims_app" = ["assets/*.svg", "assets/*.png", "assets/*.icns"]
+"idtims_app.ui" = ["assets/icons/*.svg"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

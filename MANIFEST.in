@@ -1,0 +1,8 @@
+include examples/synthetic_zircon_CA-ID-TIMS.csv
+include tools/verify_mcr.py
+include tools/audit_xls.py
+include tools/write_audit_report.py
+recursive-include tests *.py
+prune MCR_data
+prune outputs
+exclude *.xls

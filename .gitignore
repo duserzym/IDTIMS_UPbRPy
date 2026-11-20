@@ -1,0 +1,11 @@
+src/IDTIMS_UPbRPy/.DS_Store
+.DS_Store
+*.pyc
+/MCR_data/
+__pycache__/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.venv/
+/outputs/

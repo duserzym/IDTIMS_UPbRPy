@@ -1,0 +1,116 @@
+format_version = 1
+
+[spike]
+id = "ET535"
+name = "ET535"
+aliases = []
+spike_type = "535"
+isotopes = ["205Pb", "233U", "235U"]
+description = "ET535 isotope-dilution tracer solution."
+visibility = "private"
+
+[[spike.subfractions]]
+id = "unassigned"
+name = "Unassigned bottle or batch"
+notes = "The source does not identify a bottle, batch or aliquot. Assignment remains open."
+
+[[spike.versions]]
+subfraction = "unassigned"
+version = "v1"
+status = "superseded"
+source = "legacy_csv"
+locator = "spike_compositions/ET535_v1.csv, value and uncertainty rows"
+notes = "Verbatim CSV numeric tokens. Unreported concentration uncertainties remain unknown. Composition is not the printed Condon et al. (2015) Table 3 calibration; preserve privately."
+legacy = [{ name = "ET535", version = "v1" }]
+
+[spike.versions.concentrations]
+"205Pb" = { value = 0.00000000000988, unit = "mol/g" }
+"235U" = { value = 0.00000000099004, unit = "mol/g" }
+
+[spike.versions.ratios]
+"206Pb/205Pb" = { value = 0.00029893852896, uncertainty = 0.066109034, uncertainty_type = "1sd_rel_pct" }
+"207Pb/205Pb" = { value = 0.000240710434212522, uncertainty = 0.122432517344936, uncertainty_type = "1sd_rel_pct" }
+"204Pb/205Pb" = { value = 0.000088750749837, uncertainty = 0.142380004978288, uncertainty_type = "1sd_rel_pct" }
+"208Pb/205Pb" = { value = 0.000591732838743673, uncertainty = 0.161103988339754, uncertainty_type = "1sd_rel_pct" }
+"207Pb/206Pb" = { value = 0.80521716304, uncertainty = 0.10305007, uncertainty_type = "1sd_rel_pct" }
+"204Pb/206Pb" = { value = 0.296886286775284, uncertainty = 0.12610179, uncertainty_type = "1sd_rel_pct" }
+"238U/235U" = { value = 0.003087, uncertainty = 0.05, uncertainty_type = "1sd_rel_pct" }
+"233U/235U" = { value = 0.99464, uncertainty = 0.05, uncertainty_type = "1sd_rel_pct" }
+"238U/233U" = { value = 0.00310363548620606, uncertainty = 0.05, uncertainty_type = "1sd_rel_pct" }
+"235U/205Pb" = { value = 100.206477732794, uncertainty = 0.05, uncertainty_type = "1sd_rel_pct" }
+
+[[spike.versions]]
+subfraction = "unassigned"
+version = "v2"
+status = "superseded"
+source = "legacy_csv"
+locator = "spike_compositions/ET535_v2.csv, value and uncertainty rows"
+notes = "Verbatim CSV numeric tokens. Unreported concentration uncertainties remain unknown. Composition is not the printed Condon et al. (2015) Table 3 calibration; preserve privately. Concentrations are normalised to nominal 1e-9 mol/g 235U; these are not published concentrations (ET535 retains the near-nominal CSV value)."
+legacy = [{ name = "ET535", version = "v2" }]
+supersedes = "v1"
+
+[spike.versions.concentrations]
+"205Pb" = { value = 9.97676368E-12, unit = "mol/g" }
+"235U" = { value = 1.00000000028451E-09, unit = "mol/g" }
+
+[spike.versions.ratios]
+"206Pb/205Pb" = { value = 0.00038870289689973, uncertainty = 43.4932837697, uncertainty_type = "1sd_rel_pct" }
+"207Pb/205Pb" = { value = 0.00029603354647472, uncertainty = 47.3685284545, uncertainty_type = "1sd_rel_pct" }
+"204Pb/205Pb" = { value = 0.00009, uncertainty = 10, uncertainty_type = "1sd_rel_pct" }
+"208Pb/205Pb" = { value = 0.00074429933965291, uncertainty = 46.6998393268, uncertainty_type = "1sd_rel_pct" }
+"207Pb/206Pb" = { value = 0.761593363043767, uncertainty = 7.048716571, uncertainty_type = "1sd_rel_pct" }
+"204Pb/206Pb" = { value = 0.231539308602623, uncertainty = 33.749377052, uncertainty_type = "1sd_rel_pct" }
+"238U/235U" = { value = 0.00307992839133, uncertainty = 0.0128427704152, uncertainty_type = "1sd_rel_pct" }
+"233U/235U" = { value = 0.995061797313838, uncertainty = 0.0054103655891, uncertainty_type = "1sd_rel_pct" }
+"238U/233U" = { value = 0.003095213181377, uncertainty = 0.0166353765038, uncertainty_type = "1sd_rel_pct" }
+"235U/205Pb" = { value = 100.232904412597, uncertainty = 0.05, uncertainty_type = "1sd_rel_pct" }
+
+[[spike.versions]]
+subfraction = "unassigned"
+version = "v3"
+status = "current"
+source = "legacy_csv"
+locator = "spike_compositions/ET535_v3.csv, value and uncertainty rows"
+notes = "Verbatim CSV numeric tokens. Unreported concentration uncertainties remain unknown. Composition is not the printed Condon et al. (2015) Table 3 calibration; preserve privately. Concentrations are normalised to nominal 1e-9 mol/g 235U; these are not published concentrations (ET535 retains the near-nominal CSV value)."
+legacy = [{ name = "ET535", version = "v3" }]
+supersedes = "v2"
+
+[spike.versions.concentrations]
+"205Pb" = { value = 9.97676368E-12, unit = "mol/g" }
+"235U" = { value = 1.00000000028451E-09, unit = "mol/g" }
+
+[spike.versions.ratios]
+"206Pb/205Pb" = { value = 0.000478157568371004, uncertainty = 0.066109034, uncertainty_type = "1sd_rel_pct" }
+"207Pb/205Pb" = { value = 0.00034217101037898, uncertainty = 0.122432517, uncertainty_type = "1sd_rel_pct" }
+"204Pb/205Pb" = { value = 0.0000893177657166768, uncertainty = 0.142380005, uncertainty_type = "1sd_rel_pct" }
+"208Pb/205Pb" = { value = 0.000880051710412156, uncertainty = 0.161103988, uncertainty_type = "1sd_rel_pct" }
+"207Pb/206Pb" = { value = 0.715603041785355, uncertainty = 0.10305007, uncertainty_type = "1sd_rel_pct" }
+"204Pb/206Pb" = { value = 0.186795674950762, uncertainty = 0.12610179, uncertainty_type = "1sd_rel_pct" }
+"238U/235U" = { value = 0.00307992839133, uncertainty = 0.01284277, uncertainty_type = "1sd_rel_pct" }
+"233U/235U" = { value = 0.995061797313838, uncertainty = 0.005410366, uncertainty_type = "1sd_rel_pct" }
+"238U/233U" = { value = 0.003095213181377, uncertainty = 0.016635377, uncertainty_type = "1sd_rel_pct" }
+"235U/205Pb" = { value = 100.232904412597, uncertainty = 0.015, uncertainty_type = "1sd_rel_pct" }
+
+[[spike.versions]]
+subfraction = "unassigned"
+version = "sheet-sa18-1"
+status = "current"
+source = "reduction_sheets"
+locator = "SA18-1_UPbR26XML.xls, Data Reduction Engine rows 150–171; columns C, D, E, F, G, H, I"
+notes = "Exact cached binary cell numbers represented with Python repr, preserving round-trip equality. Normalised to nominal 1e-9 mol/g 235U, not published concentrations. Sheet transcription is a distinct version from the rounded CSV text; no bottle identity or chronological supersession is inferred. Rows 172–173 are fraction-specific amounts, not solution concentrations. No 235U/205Pb ratio is derived."
+
+[spike.versions.concentrations]
+"205Pb" = { value = 9.97676368e-12, unit = "mol/g" }
+"235U" = { value = 1.0000000002845095e-09, unit = "mol/g" }
+
+[spike.versions.ratios]
+"202Pb/205Pb" = { value = 0.0, uncertainty = 0.0, uncertainty_type = "1sd_rel_pct" }
+"206Pb/205Pb" = { value = 0.0004781575683710043, uncertainty = 0.066109034, uncertainty_type = "1sd_rel_pct" }
+"207Pb/205Pb" = { value = 0.00034217101037897974, uncertainty = 0.122432517344936, uncertainty_type = "1sd_rel_pct" }
+"204Pb/205Pb" = { value = 8.931776571667676e-05, uncertainty = 0.1423800049782878, uncertainty_type = "1sd_rel_pct" }
+"208Pb/205Pb" = { value = 0.0008800517104121559, uncertainty = 0.1611039883397542, uncertainty_type = "1sd_rel_pct" }
+"207Pb/206Pb" = { value = 0.7156030417853555, uncertainty = 0.10305007, uncertainty_type = "1sd_rel_pct" }
+"204Pb/206Pb" = { value = 0.18679567495076177, uncertainty = 0.12610179, uncertainty_type = "1sd_rel_pct" }
+"238U/235U" = { value = 0.00307992839133, uncertainty = 0.0128427704152, uncertainty_type = "1sd_rel_pct" }
+"233U/235U" = { value = 0.995061797313838, uncertainty = 0.0054103655891, uncertainty_type = "1sd_rel_pct" }
+"238U/233U" = { value = 0.003095213181377, uncertainty = 0.0166353765038, uncertainty_type = "1sd_rel_pct" }

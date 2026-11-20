@@ -1,0 +1,9 @@
+format_version = 1
+[sources.legacy_csv]
+display = "IDTIMS_UPbRPy bundled tracer-composition CSV archive"
+kind = "private_lab_compilation"
+notes = "Source numbers retained verbatim. No publication verifies these complete calibrations."
+[sources.reduction_sheets]
+display = "Cached tracer blocks in UPbR26XML reduction workbooks"
+kind = "private_lab_compilation"
+notes = "Read-only xlrd extraction; neutral workbook locators and compositions are recorded in docs/spike-sheet-compositions.json. Bottle and calibration dates are unknown."

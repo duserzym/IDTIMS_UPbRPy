@@ -1,0 +1,45 @@
+{
+  "format": "idtims-reduction-settings",
+  "version": 1,
+  "fractionation": {
+    "FPb_Faraday": 0.1,
+    "FPb_Faraday_std": 0.02,
+    "FPb_Daly": 0.18,
+    "FPb_Daly_std": 0.03
+  },
+  "lab_blanks": {
+    "Pb_blank_total": 0.5,
+    "Pb_blank_total_std_rel": 25.0,
+    "U_blank_total": 0.013,
+    "U_blank_total_std_rel": 25.0,
+    "R64b": 18.042194590863367,
+    "R64b_std_rel": 0.6071393779268438,
+    "R74b": 15.53710207768766,
+    "R74b_std_rel": 0.5178373807321012,
+    "R84b": 37.68630673770467,
+    "R84b_std_rel": 0.6296612320987086,
+    "rho_6474_b": 0.98,
+    "rho_6484_b": 0.98
+  },
+  "common_pb": {
+    "model": "explicit",
+    "R64c": 17.91430033772488,
+    "R74c": 15.583897037991658,
+    "R84c": 37.70735296752293,
+    "age_Ga": null,
+    "R64c_std_rel": 0.6071393779268438,
+    "R74c_std_rel": 0.5178373807321012,
+    "R84c_std_rel": 0.6296612320987086,
+    "rho_6474_c": 0.98,
+    "rho_6484_c": 0.98
+  },
+  "th_correction": {
+    "kind": "D",
+    "D_Th_U": 0.2,
+    "D_Th_U_std": 0.05,
+    "Th_U_magma": 3.0,
+    "Th_U_magma_std": 0.5
+  },
+  "spike_version": null,
+  "strict_covariance": true
+}

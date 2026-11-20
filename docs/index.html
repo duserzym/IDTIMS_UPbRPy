@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A source-linked derivation of isotope dilution U–Pb TIMS reduction, partial derivatives, uncertainty propagation and error correlations.">
+<meta name="theme-color" content="#ffffff"><title>U–Pb, derived · IDTIMS_UPbRPy</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/katex/katex.min.css"><link rel="stylesheet" href="style.css">
+<script defer src="vendor/katex/katex.min.js"></script><script defer src="vendor/katex/auto-render.min.js"></script>
+<script defer src="source-map.js"></script><script defer src="chapters.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to derivations</a>
+<aside class="sidebar">
+<a class="brand" href="#overview"><span class="brand-mark">U<span>Pb</span></span><span>U–Pb, derived<small>IDTIMS_UPbRPy</small></span></a>
+<p class="nav-label">THE DERIVATION</p><nav id="navigation" aria-label="Derivation chapters"></nav>
+<div class="sidebar-foot"><span>535 tracer · first-order model</span><a href="#paper">Paper &amp; corrections</a><button id="print" type="button">Print the walkthrough</button></div>
+</aside>
+<main id="main">
+<header id="overview">
+<div class="eyebrow">ISOTOPE DILUTION / THERMAL IONIZATION</div>
+<h1>Precision begins<br>with the <em>derivative.</em></h1>
+<p class="lead">Follow Schmitz &amp; Schoene (2007), from sample isotope quantities to radiogenic ratios and model ages. Original notation, explicit partial derivatives, and verified corrections.</p>
+<div class="hero-equation"><span class="math">\dfrac{\partial y}{\partial x_i}</span><span>Each derivative.<br>Every covariance.</span></div>
+<div class="pipeline" aria-label="Reduction sequence"><a href="#lead">§2.1 <span>Sample amounts</span></a><a href="#sample-ratios">§2.2–2.3 <span>Sample ratios</span></a><a href="#radiogenic">§3 <span>Radiogenic ratios</span></a><a href="#dates">§4 <span>Model ages</span></a></div>
+</header>
+<div class="reading-note"><span class="note-mark">∂</span><p>The chapter sequence and equation references follow Schmitz &amp; Schoene (2007). Verified corrections appear beside the affected equations; repository extensions follow the paper’s derivation.</p></div>
+<div class="callout paper-citation"><strong>Primary reference</strong><p>Schmitz, M. D., &amp; Schoene, B. (2007). <em>Derivation of isotope ratios, errors, and error correlations for U–Pb geochronology using 205Pb–235U–(233U)-spiked isotope dilution thermal ionization mass spectrometric data.</em> <em>Geochemistry, Geophysics, Geosystems</em>, 8, Q08006. <a href="https://doi.org/10.1029/2006GC001492">doi:10.1029/2006GC001492</a>.</p></div>
+<div id="chapters"></div>
+<section class="callout paper-citation" id="further-reading"><h2>Further reading</h2><p>Return to the original paper for the complete derivation and additional context:</p><p>Schmitz, M. D., &amp; Schoene, B. (2007). <em>Derivation of isotope ratios, errors, and error correlations for U–Pb geochronology using 205Pb–235U–(233U)-spiked isotope dilution thermal ionization mass spectrometric data.</em> <em>Geochemistry, Geophysics, Geosystems</em>, 8, Q08006. <a href="https://doi.org/10.1029/2006GC001492">doi:10.1029/2006GC001492</a>.</p><p>See <a href="#paper">Paper &amp; corrections</a> for the adjustments used in this walkthrough.</p></section>
+<footer><span>U–Pb, derived</span><p>A mathematical companion to IDTIMS_UPbRPy. All uncertainties are 1σ unless stated otherwise.</p><a href="#overview">Back to beginning</a></footer>
+</main>
+<noscript><p class="noscript">Enable JavaScript to read the derivations. All scripts and math fonts are included locally; no external services are needed.</p></noscript>
+</body></html>

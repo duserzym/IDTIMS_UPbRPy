@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">Option c: TIMS filament and sample bead — dark</title>
+<desc id="desc">Dark review option; ID-TIMS reduction. No crystal motif. Rhenium ribbon over two posts, glowing sample bead and faint rising ion beam.</desc>
+<defs>
+      <linearGradient id="tile" x1="0" y1="0" x2="0.8" y2="1">
+        <stop stop-color="#293b51"/><stop offset="1" stop-color="#162337"/>
+      </linearGradient>
+      <linearGradient id="card" x1="0" y1="0" x2="0.7" y2="1">
+        <stop stop-color="#2c4057"/><stop offset="1" stop-color="#203147"/>
+      </linearGradient>
+      <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+        <stop stop-color="#fff0d6"/>
+        <stop offset="0.45" stop-color="#bdb7aa"/>
+        <stop offset="1" stop-color="#8faac4"/>
+      </linearGradient>
+      <radialGradient id="glow">
+        <stop stop-color="#ffe5b4" stop-opacity="0.65"/>
+        <stop offset="0.45" stop-color="#ffad70" stop-opacity="0.24"/>
+        <stop offset="1" stop-color="#ffad70" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="beam" x1="0" y1="1" x2="0" y2="0">
+        <stop stop-color="#53d4d1" stop-opacity="0.42"/>
+        <stop offset="1" stop-color="#53d4d1" stop-opacity="0.02"/>
+      </linearGradient>
+    </defs>
+    <rect x="36" y="36" width="440" height="440" rx="88"
+      fill="url(#tile)" stroke="#51667e" stroke-width="10"/>
+<rect x="83.10" y="90.10" width="345.80" height="345.80" rx="36.90" fill="#020b16" opacity="0.018"/>
+<rect x="83.95" y="90.95" width="344.10" height="344.10" rx="36.05" fill="#020b16" opacity="0.018"/>
+<rect x="84.80" y="91.80" width="342.40" height="342.40" rx="35.20" fill="#020b16" opacity="0.018"/>
+<rect x="85.65" y="92.65" width="340.70" height="340.70" rx="34.35" fill="#020b16" opacity="0.018"/>
+<rect x="86.50" y="93.50" width="339.00" height="339.00" rx="33.50" fill="#020b16" opacity="0.018"/>
+<rect x="87.35" y="94.35" width="337.30" height="337.30" rx="32.65" fill="#020b16" opacity="0.018"/>
+<rect x="88.20" y="95.20" width="335.60" height="335.60" rx="31.80" fill="#020b16" opacity="0.018"/>
+<rect x="89.05" y="96.05" width="333.90" height="333.90" rx="30.95" fill="#020b16" opacity="0.018"/>
+<rect x="89.90" y="96.90" width="332.20" height="332.20" rx="30.10" fill="#020b16" opacity="0.018"/>
+<rect x="90.75" y="97.75" width="330.50" height="330.50" rx="29.25" fill="#020b16" opacity="0.018"/>
+<rect x="91.60" y="98.60" width="328.80" height="328.80" rx="28.40" fill="#020b16" opacity="0.018"/>
+<rect x="92.45" y="99.45" width="327.10" height="327.10" rx="27.55" fill="#020b16" opacity="0.018"/>
+<rect x="93.30" y="100.30" width="325.40" height="325.40" rx="26.70" fill="#020b16" opacity="0.018"/>
+<rect x="94.15" y="101.15" width="323.70" height="323.70" rx="25.85" fill="#020b16" opacity="0.018"/>
+<rect x="95" y="95" width="322" height="322" rx="25" fill="url(#card)" stroke="#607892" stroke-width="3"/>
+<path d="M 192 127 V 385 M 127 192 H 386" fill="none" stroke="#50667f" stroke-width="1.5"/>
+<path d="M 256 127 V 385 M 127 256 H 386" fill="none" stroke="#50667f" stroke-width="1.5"/>
+<path d="M 320 127 V 385 M 127 320 H 386" fill="none" stroke="#50667f" stroke-width="1.5"/>
+<path d="M 384 127 V 385 M 127 384 H 386" fill="none" stroke="#50667f" stroke-width="1.5"/>
+<path d="M 249 250 L 226 135 Q 256 120 286 135 L 263 250 Z" fill="url(#beam)"/>
+<path d="M 256 222 V 145" stroke="#53d4d1" stroke-width="6" stroke-linecap="round" opacity="0.45"/>
+<path d="M 245 213 L 239 157 M 267 213 L 273 157" stroke="#53d4d1" stroke-width="3" stroke-linecap="round" opacity="0.22"/>
+<circle cx="256" cy="246" r="52" fill="url(#glow)"/>
+<rect x="139" y="293" width="46" height="76" rx="10" fill="#8faac4" stroke="#10283f" stroke-width="8"/>
+<ellipse cx="162" cy="295" rx="23" ry="10" fill="#ccdae7" stroke="#10283f" stroke-width="7"/>
+<path d="M 151 315 V 352" stroke="#ccdae7" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+<rect x="327" y="293" width="46" height="76" rx="10" fill="#8faac4" stroke="#10283f" stroke-width="8"/>
+<ellipse cx="350" cy="295" rx="23" ry="10" fill="#ccdae7" stroke="#10283f" stroke-width="7"/>
+<path d="M 339 315 V 352" stroke="#ccdae7" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+<path d="M 157 308 L 195 250 Q 200 242 212 242 H 300 Q 312 242 317 250 L 355 308 L 340 321 L 303 268 H 209 L 172 321 Z" fill="url(#metal)" stroke="#10283f" stroke-width="8" stroke-linejoin="round"/>
+<path d="M 174 297 L 205 252 H 307 L 337 297" fill="none" stroke="#fff0d6" stroke-width="4" stroke-linejoin="round" opacity="0.8"/>
+<ellipse cx="256" cy="246" rx="18" ry="16" fill="#ffad70" stroke="#10283f" stroke-width="5"/>
+<ellipse cx="251" cy="240" rx="7" ry="5" fill="#ffe5b4"/>
+<path d="M 137 382 H 375" stroke="#a5bed8" stroke-width="13" stroke-linecap="round"/>
+<path d="M 137 382 H 375" stroke="#10283f" stroke-width="9" stroke-linecap="round"/>
+</svg>
