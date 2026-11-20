@@ -132,9 +132,12 @@ def test_archive_symlinks_signing_feed_and_checksums(monkeypatch, tmp_path, key_
     monkeypatch.setattr(build_desktop.subprocess, "run", run)
     archive = build_desktop.archive_application(
         app, tmp_path, sign_with=key if key_source == "argument" else None)
-    stem = f"{build_desktop.APPLICATION_NAME}-{build_desktop.project_version()}-macOS-arm64"
+    stem = f"ID-TIMS-Reduction-{build_desktop.project_version()}-macOS-arm64"
     assert archive.name == f"{stem}.zip" and archive.exists()
     tarball = tmp_path / f"{stem}.app.tar.gz"
+    for name in (archive.name, tarball.name, tarball.name + ".sig"):
+        assert " " not in name and "%20" not in name
+    assert app.name == "ID-TIMS Reduction.app"
     with tarfile.open(tarball) as bundle:
         assert bundle.getmember(f"{app.name}/alias").issym()
         assert bundle.extractfile(f"{app.name}/Contents/MacOS/app").read() == b"test executable"
@@ -142,8 +145,10 @@ def test_archive_symlinks_signing_feed_and_checksums(monkeypatch, tmp_path, key_
         feed = json.loads((tmp_path / "latest.json").read_text())
         assert feed["version"] == build_desktop.project_version()
         assert feed["notes"] == (build_desktop.PROJECT_ROOT / "release-notes" / f"{feed['version']}.md").read_text()
-        assert feed["platforms"]["darwin-aarch64"]["url"].endswith(tarball.name.replace(" ", "%20"))
-        assert "/duserzym/IDTIMS_UPbRPy/" in feed["platforms"]["darwin-aarch64"]["url"]
+        url = feed["platforms"]["darwin-aarch64"]["url"]
+        assert url == (f"https://github.com/duserzym/IDTIMS_UPbRPy/releases/download/"
+                       f"v{feed['version']}/{tarball.name}")
+        assert " " not in url and "%20" not in url
         assert Path(str(tarball) + ".sig").exists()
         assert len(calls) == 2
     else:
@@ -153,6 +158,7 @@ def test_archive_symlinks_signing_feed_and_checksums(monkeypatch, tmp_path, key_
     assert len(sums) == (2 if key_source == "unsigned" else 4)
     for line in sums:
         digest, name = line.split("  ", 1)
+        assert " " not in name and "%20" not in name
         assert hashlib.sha256((tmp_path / name).read_bytes()).hexdigest() == digest
     assert not (tmp_path / "updater.pub").exists()
 

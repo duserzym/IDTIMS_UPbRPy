@@ -60,11 +60,17 @@ Output lives under the existing platform cache path printed by the script
 (or `$IDTIMS_BUILD_ROOT`, outside the repository). On macOS arm64, `--archive`
 produces:
 
-- `ID-TIMS Reduction-<version>-macOS-arm64.zip`
-- `ID-TIMS Reduction-<version>-macOS-arm64.app.tar.gz`, preserving bundle symlinks
+- `ID-TIMS-Reduction-<version>-macOS-arm64.zip`
+- `ID-TIMS-Reduction-<version>-macOS-arm64.app.tar.gz`, preserving bundle symlinks
 - `SHA256SUMS.txt`
 
-With an updater key, it also produces the tarball's `.sig` and `latest.json`
+Release asset names use branding's `RELEASE_SLUG` and contain no spaces, so
+`latest.json` URLs need no percent-encoding. The bundle inside each archive
+remains `ID-TIMS Reduction.app`. GitHub renames uploaded assets containing
+spaces, which would break feed URLs based on those names.
+
+With an updater key, it also produces
+`ID-TIMS-Reduction-<version>-macOS-arm64.app.tar.gz.sig` and `latest.json`
 using the vendored `release.build_feed`. Every signature is verified against the
 embedded production public key before the feed is written. Windows uses a
 signed ZIP with the `windows-x86_64` target; signed feeds support macOS arm64

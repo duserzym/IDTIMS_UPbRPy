@@ -268,7 +268,7 @@ def archive_application(
 ) -> Path:
     """Create a ZIP plus an update tarball, verified feed and checksums."""
     archive_stem = (
-        f"{APPLICATION_NAME}-{project_version()}-{platform_label()}"
+        f"{BRANDING['RELEASE_SLUG']}-{project_version()}-{platform_label()}"
     )
     archive = dist_directory / f"{archive_stem}.zip"
     if archive.exists():

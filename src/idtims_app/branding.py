@@ -16,6 +16,9 @@ DISPLAY_NAME = "ID-TIMS Reduction (working name)"
 BUNDLE_NAME = "ID-TIMS Reduction"
 """File-system name of the frozen app (no parentheses): `<BUNDLE_NAME>.app`."""
 
+RELEASE_SLUG = BUNDLE_NAME.replace(" ", "-")
+"""Filesystem- and URL-safe prefix for release assets."""
+
 RAIL_NAME = "ID-TIMS"
 """Short name beside the icon at the top of the workflow rail."""
 
