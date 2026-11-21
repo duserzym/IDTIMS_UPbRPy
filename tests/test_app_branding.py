@@ -3,7 +3,10 @@ import ast
 import hashlib
 import os
 import struct
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 from pathlib import Path
 
 import pytest

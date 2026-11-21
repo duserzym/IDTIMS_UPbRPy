@@ -214,7 +214,7 @@ class FullTableTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'full.csv'
             write_csv(table, path)
-            back = pd.read_csv(path)
+            back = pd.read_csv(path, float_precision='round_trip')
         self.assertEqual(list(back.columns), list(table.columns))
         # Whole numbers (e.g. 0) are written without a decimal point and read as int.
         back = back.astype({c: float for c in table.columns[1:]})
