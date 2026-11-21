@@ -11,9 +11,10 @@ from pathlib import Path
 
 import pytest
 
+from gui_support import require_gui
+
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-pytest.importorskip("PySide6")
-pytest.importorskip("pyqtgraph")
+require_gui()
 
 from PySide6 import QtCore, QtWidgets  # noqa: E402
 

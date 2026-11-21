@@ -3,9 +3,10 @@ import os
 
 import pytest
 
+from gui_support import require_gui
+
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-pytest.importorskip("PySide6")
-pytest.importorskip("pyqtgraph")
+require_gui()
 from PySide6 import QtCore, QtGui, QtTest, QtWidgets
 
 from idtims_app.ui.theme import apply_theme
