@@ -55,7 +55,8 @@ class BsuTableTests(unittest.TestCase):
                 elif key == 'U (ppm)':
                     np.testing.assert_allclose(actual, expected, rtol=2e-6, atol=0)
                 else:
-                    np.testing.assert_allclose(actual, expected, rtol=1e-12, atol=0)
+                    # Python 3.10 drift: 2.7e-12 relative (numpy 2.2.6/scipy 1.15.3).
+                    np.testing.assert_allclose(actual, expected, rtol=1e-9, atol=0)
         for key in SHEET_ZERO:
             with self.subTest(column=key):
                 self.assertTrue((self.table[key] == 0.0).all())
