@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "IDTIMS-UPbRPy"
-version = "0.2.3"
+version = "0.2.4"
 description = "ID-TIMS U-Pb isotope dilution reduction and age calculations"
 readme = "README.md"
 requires-python = ">=3.10"

@@ -32,9 +32,10 @@ these copies to match. PyInstaller bundles the root notes into that same package
 location. Both wheels and frozen apps can therefore read their running notes.
 The feed builder refuses missing, blank or oversized notes.
 
-The checkout already declares version 0.2.3. Notes for the first-release 0.2.2
-and the running 0.2.3 are included. For a future release, update both
-`pyproject.toml` and `src/idtims_app/__init__.py` and add its notes before building.
+The checkout declares version 0.2.4. Notes for releases 0.2.2 through 0.2.4
+are included. For a future release, update `pyproject.toml`,
+`src/IDTIMS_UPbRPy/__init__.py` and `src/idtims_app/__init__.py`, then add its
+notes before building.
 
 ## Build, validate and sign
 
