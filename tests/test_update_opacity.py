@@ -3,6 +3,10 @@ import os
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pytest
+from gui_support import require_gui
+
+require_gui()
+
 from PySide6 import QtCore, QtGui, QtWidgets
 
 from idtims_app.labupdate.config import UpdateConfig
